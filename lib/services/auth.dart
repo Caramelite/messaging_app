@@ -3,7 +3,7 @@ import 'package:messaging_app/model/user.dart';
 //import 'package:build_web_compilers/build_web_compilers.dart';
 
 class AuthMethods {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   Users _userFromFirebaseUser(FirebaseUser user) {
     return user != null ? Users(userId: user.uid) : null;
@@ -11,7 +11,7 @@ class AuthMethods {
 
   Future signInWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.signInWithEmailAndPassword(
+      AuthResult result = await _firebaseAuth.signInWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
@@ -22,7 +22,7 @@ class AuthMethods {
 
   Future signUpWithEmailAndPassword(String email, String password) async {
     try {
-      AuthResult result = await _auth.createUserWithEmailAndPassword(
+      AuthResult result = await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
       FirebaseUser user = result.user;
       return _userFromFirebaseUser(user);
@@ -33,7 +33,7 @@ class AuthMethods {
 
   Future resetPassword(String email) async {
     try {
-      return await _auth.sendPasswordResetEmail(email: email);
+      return await _firebaseAuth.sendPasswordResetEmail(email: email);
     } catch (e) {
       print(e.toString());
     }
@@ -41,7 +41,7 @@ class AuthMethods {
 
   Future signOut() async {
     try {
-      return await _auth.signOut();
+      return await _firebaseAuth.signOut();
     } catch (e) {}
   }
 }

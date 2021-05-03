@@ -1,26 +1,36 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DatabaseMethods {
-  Future<void> addUserInfo(userData) async {
-    Firestore.instance.collection("users").add(userData).catchError((e) {
-      print(e.toString());
-    });
-  }
-
-  etUserInfo(String email) async {
-    return Firestore.instance
+  getUserInfo(String email) async {
+    Firestore.instance
         .collection("users")
-        .where("userEmail", isEqualTo: email)
+        .where("name", isEqualTo: email)
         .getDocuments()
         .catchError((e) {
       print(e.toString());
     });
   }
 
-  searchByName(String searchField) {
-    return Firestore.instance
+  uploadUserInfo(userMap) {
+    Firestore.instance.collection("users").add(userMap).catchError((e) {
+      print(e.toString());
+    });
+  }
+
+  getuserByUsername(String username) async {
+    return await Firestore.instance
         .collection("users")
-        .where('userName', isEqualTo: searchField)
+        .where("name", isEqualTo: username)
         .getDocuments();
+  }
+
+  createChatRoom(String chatRoomId, chatRoomMap) {
+    Firestore.instance
+        .collection("ChatRoom")
+        .document(chatRoomId)
+        .setData(chatRoomMap)
+        .catchError((e) {
+      print(e.toString());
+    });
   }
 }
